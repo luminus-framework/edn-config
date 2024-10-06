@@ -21,6 +21,17 @@ namespaced keys can be declared using `__`:
 
 * `db__spec` -> `db/spec`
 
+The library uses ClojureScript-like substitution for special signs:
+
+* `FOO_QMARK_` -> `foo?`
+* `FOO_BANG_` -> `foo!`
+* `FOO_PLUS_` -> `foo+`
+* `FOO_GT_` -> `foo>`
+* `FOO_LT_` -> `foo<`
+* `FOO_EQ_` -> `foo=`
+* `FOO_STAR_` -> `foo*`
+
+
 The values are parsed using the following strategy:
 
 1. `[0-9]+` -> number
@@ -38,6 +49,8 @@ following environment variables:
 * db__spec="jdbc:sqlite:myapp_dev.db"
 * edn_string="{:foo :bar :baz [1 2 \"foo\"]}"
 * unparsed.text="some text here"
+* WITH_BANG_=":bang!"
+* WITH_PLUS_=":plus+"
 ```
 
 are translated as:
@@ -47,9 +60,11 @@ are translated as:
 * :text          "true",
 * :number        15,
 * :quoted-number "12",
-  :db/spec       "jdbc:sqlite:myapp_dev.db"
+* :db/spec       "jdbc:sqlite:myapp_dev.db"
 * :edn-string    {:foo :bar, :baz [1 2 "foo"]},
 * :unparsed-text "some text here"
+* :with!         :bang!
+* :with+         :plus+
 ```
 ## Installation
 
